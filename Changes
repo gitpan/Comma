@@ -5,3 +5,6 @@ Revision history for Perl extension Comma.
 
 0.02  2005 January 4
     - Added locale support.
+
+0.03  2005 January 7
+    - Deprecated.  Renamed to Tie::Comma.

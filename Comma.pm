@@ -1,17 +1,16 @@
 =head1 NAME
 
-Comma - Yet Another way to format numbers with commas, this time via
-tied hash.
+Comma - This module is DEPRECATED.  It has been renamed to L<Tie::Comma>.
 
 =head1 VERSION
 
-This documentation describes version 0.02 of Comma.pm, January 04, 2005
+This documentation describes version 0.03 of Comma.pm, January 07, 2005
 
 =cut
 
 use strict;
 package Comma;
-$Comma::VERSION = 0.02;
+$Comma::VERSION = 0.03;
 
 use Exporter;
 use vars qw/@ISA @EXPORT %comma/;
@@ -119,6 +118,8 @@ __END__
 
 =head1 DESCRIPTION
 
+I<This module is DEPRECATED>.  Use L<Tie::Comma> instead.
+
 This module provides a global read-only hash, C<%comma>, for
 formatting numbers with commas.  The tied-hash idiom is quite useful,
 since you can use it within a string as easily as outside a string.
@@ -178,7 +179,7 @@ Uses C<Carp> and C<Exporter>, which of course come with Perl.
 
 =head1 SEE ALSO
 
-Mark Dominus's excellent C<Interpolation> module, which provides a
+Mark Dominus's excellent L<Interpolation> module, which provides a
 much more general solution than this special-purpose module.
 
 =head1 AUTHOR / COPYRIGHT

@@ -24,11 +24,11 @@ EXAMPLES
 
 DEVELOPMENT STATE
 
-This is the first version of this module, so who knows whether bugs
-abound.
+This is an early version of this module, so who knows what bugs lurk
+within.
 
-If you find any bugs, or if any behavior of Comma surprises you, I
-would be grateful if you could send me an email message about it.
+If you find any bugs, or if any behavior of Tie::Comma surprises you,
+I would be grateful if you could send me an email message about it.
 Thanks.
 
 INSTALLATION
@@ -43,7 +43,6 @@ To install this module, do the standard Perl module four-step:
 DEPENDENCIES
 
 This module requires Exporter.pm and Carp.pm, both of which come with Perl.
-Test::More is required to run the test suite.
 
 COPYRIGHT AND LICENSE
 

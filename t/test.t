@@ -1,10 +1,22 @@
 #!/perl -I..
 
 use strict;
-use Test::More tests => 15;
+use warnings;
+no warnings 'uninitialized';
+print "1..14\n";
 
-# Can the module be loaded? (1)
-BEGIN { use_ok 'Comma' }
+my $tn=0;
+sub is
+{
+    my $ok = $_[0] eq $_[1]? "ok " : "not ok ";
+    print $ok, ++$tn;
+    if ($ok eq "not ok ")
+    {
+        print "\t$_[2]: expected '$_[1]', got '$_[0]'"
+    }
+    print "\n";
+}
+
 use Comma;
 
 # Were all variables imported? (1)

@@ -5,19 +5,38 @@ tied hash.
 
 =head1 VERSION
 
-This documentation describes version 0.01 of Comma.pm, January 03, 2005.
+This documentation describes version 0.02 of Comma.pm, January 04, 2005
 
 =cut
 
 use strict;
 package Comma;
-$Comma::VERSION = 0.01;
+$Comma::VERSION = 0.02;
 
-# If exporting symbols:
 use Exporter;
 use vars qw/@ISA @EXPORT %comma/;
 @ISA       = qw/Exporter/;
 @EXPORT    = qw/%comma/;
+
+# Defaults
+our $thou_sep = ',';
+our $deci_sep = '.';
+our $grouping = 3;
+
+# Configure for locale
+eval
+{
+    require POSIX;
+    my $loc = POSIX::setlocale(POSIX::LC_NUMERIC());
+    my $lc  = POSIX::localeconv();
+    $thou_sep = $lc->{thousands_sep} || $thou_sep;
+    $deci_sep = $lc->{decimal_point} || $deci_sep;
+    $grouping = $lc->{grouping}? unpack('c', $lc->{grouping}) : $grouping;
+};   # Ignore any errors in this block -- just fall back to the defaults.
+
+# Substitution pattern
+my $num_pat = "(" . ("\\d" x $grouping) . ")(?=\\d)(?!\\d*\\$deci_sep)";
+my $num_re  = qr/$num_pat/;
 
 # Here's the statement that makes it all happen.
 tie our %comma, 'Comma';
@@ -35,7 +54,7 @@ sub Comma::croak
 sub commify ($)
 {
     my $rev_num = reverse shift;  # The number to be formatted, reversed.
-    $rev_num =~ s/(\d\d\d)(?=\d)(?!\d*\.)/$1,/g;
+    $rev_num =~ s/$num_re/$1$thou_sep/g;
     return scalar reverse $rev_num;
 }
 
@@ -56,15 +75,22 @@ sub FETCH
     @args > 3  and Comma::croak "Too many arguments to %comma";
     my ($num, $dp, $min_fw) = @args;
 
-    # Caller specified number of decimal places?
-    if (defined $dp)
+    for ($dp, $min_fw)
     {
-        $num = sprintf "%.${dp}f", $num;
+        next unless defined;
+        next unless length;
+        s/\Q$deci_sep\E.*//o;  # remove any fractional part
+        $_ = 0 unless /^-?\d+$/;
     }
+    $min_fw = 0  if (!defined $min_fw  or  length $min_fw == 0);
+
+    # Caller specified number of decimal places?
+    $num = sprintf "%.${dp}f", $num  if defined $dp  &&  length $dp;
 
     my $cnum = commify $num;
-    return $cnum if !defined($min_fw) or length $cnum >= $min_fw;
 
+    # Pad, if necessary.
+    return $cnum if length $cnum >= $min_fw;
     my $spaces = ' ' x ($min_fw - length $cnum);
     return $spaces . $cnum;
 }

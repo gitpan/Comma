@@ -4,7 +4,7 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
     'NAME'		=> 'Comma',
     'VERSION_FROM'	=> 'Comma.pm', # finds $VERSION
-    'PREREQ_PM'		=> {'Test::Simple' => '0.40'},
+    'PREREQ_PM'		=> {},
     ($] >= 5.005 ?    ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM => 'Comma.pm', # retrieve abstract from module
        AUTHOR     => 'Eric Roode <roode@cpan.org>') : ()),
